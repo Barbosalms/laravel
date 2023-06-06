@@ -34,10 +34,17 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // $usuario = User::create($request->all());
-        $usuario = new User();
-        $usuario->fill($request->all());
-        $usuario->save();
+        $validate = $request->validate([
+            'name' => 'required',
+            'email' => 'required|unique:users',
+            'password' => 'required|confirmed|min:4'
+        ]);
+        $usuario = User::create($request->all());
+
+
+        // $usuario = new User();
+        // $usuario->fill($request->all());
+        // $usuario->save();
 
         return redirect()->route('usuario.show', ['id'=>$usuario->id]);
 
@@ -57,7 +64,8 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $usuario = User::find($id);
+        return view('usuario.form')->with(compact('usuario'));
     }
 
     /**
@@ -65,7 +73,9 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $usuario = User::find($id);
+        $usuario->update($request->all());
+        return redirect()->route('usuario.show', ['id'=> $usuario->id])->with('success', 'Atualizado com Sucesso!');
     }
 
     /**
@@ -73,6 +83,8 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $usuario = User::find($id);
+        $usuario->destroy($usuario->id);
+        return redirect()->back()->with('danger', 'Excluído com sucesso!');
     }
 }
