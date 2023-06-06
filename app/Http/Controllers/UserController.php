@@ -34,7 +34,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        // $usuario = User::create($request->all());
+        $usuario = new User();
+        $usuario->fill($request->all());
+        $usuario->save();
+
+        return redirect()->route('usuario.show', ['id'=>$usuario->id]);
+
     }
 
     /**
