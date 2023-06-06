@@ -6,6 +6,11 @@
 <h2>
     <a class="btn btn-danger" href="{{route('usuario.create')}}">Novo Usuário</a>
 </h2>
+    @if (Session::has('danger'))
+        <div class="alert alert-danger">
+            {!! Session::get('danger')!!}
+        </div>
+    @endif
 <p>
     {{ $usuarios->links() }}
 

@@ -84,7 +84,7 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         $usuario = User::find($id);
-        $usuario->destroy($usuario->id);
+        $usuario->destroy($id);
         return redirect()->back()->with('danger', 'Excluído com sucesso!');
     }
 }
